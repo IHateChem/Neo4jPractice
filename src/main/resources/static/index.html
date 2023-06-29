@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+  <title>GET 요청 예시</title>
+</head>
+<body>
+<form id="searchForm" method="GET">
+  <input type="text" name="searchQuery" placeholder="검색어 입력">
+  <button type="submit">검색</button>
+</form>
+
+<script>
+        // 폼 제출 이벤트 핸들러
+        document.getElementById("searchForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // 폼 기본 동작 중지
+
+            // 검색어 값 가져오기
+            var searchQuery = document.querySelector("input[name='searchQuery']").value;
+
+            // GET 요청 보내기
+            var url = "/search?query=" + encodeURIComponent(searchQuery);
+            window.location.href = url;
+        });
+    </script>
+</body>
+</html>

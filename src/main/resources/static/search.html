@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">>
+    <title>JSON 데이터 시각화</title>
+    <style>
+        .node {
+            fill: #00FF80;
+            stroke: #fff;
+            stroke-width: 10px;
+        }
+
+        .link {
+            fill: #FF00FF;
+            stroke: #999;
+            stroke-opacity: 0.6;
+            stroke-width: 2px;
+        }
+
+        .label {
+            font-size: 12px;
+            fill: black;
+            text-anchor: middle;
+            alignment-baseline: middle;
+        }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+<svg id="graph" width="2000" height="2000"></svg>
+
+<script>
+        var jsonData = [
+  {
+    "n": {
+      "identity": 132,
+      "labels": [
+        "Wiki"
+      ],
+      "properties": {
+        "name": "Deterministic_pushdown_automaton",
+        "url": "https://en.wikipedia.org/wiki/Deterministic_pushdown_automaton"
+      },
+      "elementId": "132"
+    }
+  },
+  {
+    "n": {
+      "identity": 133,
+      "labels": [
+        "Word"
+      ],
+      "properties": {
+        "word": "Deterministic_pushdown_automaton\"><span>Read</span></a>"
+      },
+      "elementId": "133"
+    }
+  },
+  {
+    "n": {
+      "identity": 134,
+      "labels": [
+        "Word"
+      ],
+      "properties": {
+        "word": "Context-free_language"
+      },
+      "elementId": "134"
+    }
+  },
+  {
+    "n": {
+      "identity": 135,
+      "labels": [
+        "Word"
+      ],
+      "properties": {
+        "word": "Palindrome"
+      },
+      "elementId": "135"
+    }
+  },
+  {
+    "n": {
+      "identity": 136,
+      "labels": [
+        "Word"
+      ],
+      "properties": {
+        "word": "Help:Contents"
+      },
+      "elementId": "136"
+    }
+  },
+  {
+    "n": {
+      "identity": 137,
+      "labels": [
+        "Word"
+      ],
+      "properties": {
+        "word": "Wikipedia:Community_portal"
+      },
+      "elementId": "137"
+    }
+  },
+  {
+    "n": {
+      "identity": 138,
+      "labels": [
+        "Word"
+      ],
+      "properties": {
+        "word": "Deterministic_context-free_language"
+      },
+      "elementId": "138"
+    }
+  },
+  {
+    "n": {
+      "identity": 139,
+      "labels": [
+        "Word"
+      ],
+      "properties": {
+        "word": "G%C3%B6del_Prize"
+      },
+      "elementId": "139"
+    }
+  },
+  {
+    "n": {
+      "identity": 140,
+      "labels": [
+        "Word"
+      ],
+      "properties": {
+        "word": "Kleene_star"
+      },
+      "elementId": "140"
+    }
+  },
+  {
+    "n": {
+      "identity": 141,
+      "labels": [
+        "Word"
+      ],
+      "properties": {
+        "word": "Wikipedia:Citation_needed"
+      },
+      "elementId": "141"
+    }
+  },
+  {
+    "n": {
+      "identity": 142,
+      "labels": [
+        "Word"
+      ],
+      "properties": {
+        "word": "Wikipedia:About"
+      },
+      "elementId": "142"
+    }
+  },
+  {
+    "n": {
+      "identity": 143,
+      "labels": [
+        "Word"
+      ],
+      "properties": {
+        "word": "Wikipedia:File_upload_wizard"
+      },
+      "elementId": "143"
+    }
+  },
+  {
+    "n": {
+      "identity": 144,
+      "labels": [
+        "Word"
+      ],
+      "properties": {
+        "word": "Help:Introduction"
+      },
+      "elementId": "144"
+    }
+  },
+  {
+    "n": {
+      "identity": 145,
+      "labels": [
+        "Word"
+      ],
+      "properties": {
+        "word": "Automata_theory"
+      },
+      "elementId": "145"
+    }
+  },
+  {
+    "n": {
+      "identity": 146,
+      "labels": [
+        "Word"
+      ],
+      "properties": {
+        "word": "Empty_string"
+      },
+      "elementId": "146"
+    }
+  },
+  {
+    "n": {
+      "identity": 147,
+      "labels": [
+        "Word"
+      ],
+      "properties": {
+        "word": "Portal:Current_events"
+      },
+      "elementId": "147"
+    }
+  },
+  {
+    "n": {
+      "identity": 148,
+      "labels": [
+        "Word"
+      ],
+      "properties": {
+        "word": "Pushdown_automaton"
+      },
+      "elementId": "148"
+    }
+  },
+  {
+    "n": {
+      "identity": 149,
+      "labels": [
+        "Word"
+      ],
+      "properties": {
+        "word": "Wikipedia:Contents"
+      },
+      "elementId": "149"
+    }
+  },
+  {
+    "n": {
+      "identity": 150,
+      "labels": [
+        "Word"
+      ],
+      "properties": {
+        "word": "Power_set"
+      },
+      "elementId": "150"
+    }
+  }
+];
+
+        var svg = d3.select("#graph");
+        var width = +svg.attr("width");
+        var height = +svg.attr("height");
+
+        var simulation = d3.forceSimulation()
+            .force("link", d3.forceLink().id(function(d) { return d.id; }))
+            .force("charge", d3.forceManyBody().strength(-200))
+            .force("center", d3.forceCenter(width / 2, height / 2));
+
+        var link = svg.selectAll(".link");
+        var node = svg.selectAll(".node");
+        var label = svg.selectAll(".label");
+
+        var graph = { nodes: [], links: [] };
+
+        jsonData.forEach(function(data) {
+            var node = data.n;
+            graph.nodes.push({ id: node.identity, name: node.properties.name || node.properties.word });
+        });
+
+        jsonData.forEach(function(data) {
+            var node = data.n;
+            if (node.elementId !== undefined) {
+                graph.links.push({ source: node.identity, target: parseInt(node.elementId) });
+            }
+        });
+
+        update();
+
+        function update() {
+            link = link.data(graph.links, function(d) { return d.source + "-" + d.target; });
+            link.exit().remove();
+            link = link.enter().append("line").attr("class", "link").merge(link);
+
+            node = node.data(graph.nodes, function(d) { return d.id; });
+            node.exit().remove();
+            node = node.enter().append("circle").attr("class", "node").attr("r", 8).merge(node);
+
+            label = label.data(graph.nodes, function(d) { return d.id; });
+            label.exit().remove();
+            label = label.enter().append("text").attr("class", "label").text(function(d) { return d.name; }).merge(label);
+
+            simulation.nodes(graph.nodes).on("tick", ticked);
+            simulation.force("link").links(graph.links);
+
+            simulation.alpha(1).restart();
+        }
+
+        function ticked() {
+            link
+                .attr("x1", function(d) { return d.source.x; })
+                .attr("y1", function(d) { return d.source.y; })
+                .attr("x2", function(d) { return d.target.x; })
+                .attr("y2", function(d) { return d.target.y; });
+
+            node
+                .attr("cx", function(d) { return d.x; })
+                .attr("cy", function(d) { return d.y; });
+
+            label
+                .attr("x", function(d) { return d.x; })
+                .attr("y", function(d) { return d.y - 10; }); // 노드 위에 표시하기 위해 y 좌표를 조정합니다.
+        }
+    </script>
+</body>
+</html>

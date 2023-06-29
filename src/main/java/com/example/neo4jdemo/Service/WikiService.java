@@ -1,11 +1,10 @@
-package com.example.Service;
+package com.example.neo4jdemo.Service;
 
-import com.example.Repository.WikiRepository;
-import com.example.entity.Wiki;
-import com.example.entity.Word;
-import com.example.utils.GetJsonFromUrl;
+import com.example.neo4jdemo.Repository.WikiRepository;
+import com.example.neo4jdemo.entity.Wiki;
+import com.example.neo4jdemo.entity.Word;
+import com.example.neo4jdemo.utils.GetJsonFromUrl;
 import org.json.simple.JSONObject;
-import org.neo4j.cypherdsl.core.Create;
 import org.neo4j.driver.*;
 
 import java.util.StringTokenizer;

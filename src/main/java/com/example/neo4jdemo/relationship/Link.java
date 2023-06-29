@@ -1,7 +1,7 @@
-package com.example.relationship;
+package com.example.neo4jdemo.relationship;
 
-import com.example.entity.Wiki;
-import com.example.entity.Word;
+import com.example.neo4jdemo.entity.Wiki;
+import com.example.neo4jdemo.entity.Word;
 import lombok.Getter;
 import lombok.Setter;
 

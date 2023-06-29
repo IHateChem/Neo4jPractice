@@ -1,4 +1,4 @@
-package com.example.utils;
+package com.example.neo4jdemo.utils;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -13,7 +13,7 @@ public class GetJsonFromUrl {
     public static JSONObject getJson(String url){
         try {
             // Python 파일 실행 명령어
-            String command = String.format("Python3 /Users/iseog-u/Desktop/ComputerScience/study/neo4jDemo/src/main/Python/parsingURL.py %s", url);
+            String command = String.format("python \"C:\\Users\\이석우\\OneDrive\\바탕 화면\\Study\\Neo4jPractice\\src\\main\\Python\\parsingURL.py\" %s", url);
             // 프로세스 빌더 생성 및 실행
             ProcessBuilder pb = new ProcessBuilder(command.split(" "));
             Process process = pb.start();

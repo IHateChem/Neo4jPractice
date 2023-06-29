@@ -1,11 +1,11 @@
 package com.example.Repository;
 
-import com.example.Service.WikiService;
-import com.example.entity.Wiki;
+import com.example.neo4jdemo.Repository.Neo4jWikiRepository;
+import com.example.neo4jdemo.Repository.WikiRepository;
+import com.example.neo4jdemo.Service.WikiService;
+import com.example.neo4jdemo.entity.Wiki;
 import org.junit.jupiter.api.Test;
 import org.neo4j.driver.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class Neo4jWikiRepositoryTest {
 

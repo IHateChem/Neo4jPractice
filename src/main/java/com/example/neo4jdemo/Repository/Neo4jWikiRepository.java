@@ -1,11 +1,10 @@
-package com.example.Repository;
+package com.example.neo4jdemo.Repository;
 
-import com.example.entity.Wiki;
-import com.example.entity.Word;
+import com.example.neo4jdemo.entity.Wiki;
+import com.example.neo4jdemo.entity.Word;
 import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.types.Node;
-import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.List;
 @Repository
 public class Neo4jWikiRepository implements WikiRepository{
     private final Session session;
-    Neo4jWikiRepository(Session session){
+    public Neo4jWikiRepository(Session session){
         this.session = session;
     }
     @Override
@@ -60,7 +59,7 @@ public class Neo4jWikiRepository implements WikiRepository{
     }
     @Override
     public void saveRelation(Wiki wiki, Word word, long num){
-        String query = String.format("MATCH (wiki:Wiki {name: '%s'}) CREATE (wiki)-[:LINKS{num:%d}]->(:Word {word: '%s'})", wiki.getName(),num, word.getWord());
+        String query = String.format("MATCH (wiki:Wiki {name: '%s'}), (word:Word {word: '%s'}) CREATE (wiki)-[:LINKS{num:%d}]->(word)", wiki.getName(), word.getWord(),num);
         session.run(query);
     }
 }

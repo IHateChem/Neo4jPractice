@@ -1,8 +1,7 @@
-package com.example.Repository;
+package com.example.neo4jdemo.Repository;
 
-import com.example.entity.Wiki;
-import com.example.entity.Word;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.neo4jdemo.entity.Wiki;
+import com.example.neo4jdemo.entity.Word;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

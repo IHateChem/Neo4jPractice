@@ -1,6 +1,6 @@
 package com.example;
-import com.example.entity.Word;
-import com.example.utils.GetJsonFromUrl;
+import com.example.neo4jdemo.entity.Word;
+import com.example.neo4jdemo.utils.GetJsonFromUrl;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Test;
 
